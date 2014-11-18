@@ -21,9 +21,12 @@
 @property (nonatomic) IBOutlet UIView* datePickerContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *datePickerComponentsContainerVSpace;
 @property (nonatomic) IBOutlet UIView* datePickerComponentsContainer;
-@property (nonatomic) IBOutlet UIButton *cancelButton;
-@property (nonatomic) IBOutlet UIButton *doneButton;
+//@property (nonatomic) IBOutlet UIButton *cancelButton;
+//@property (nonatomic) IBOutlet UIButton *doneButton;
 @property (nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
+
 
 @end
 
@@ -260,7 +263,7 @@
 - (void)updateCancelButton:(NSMutableDictionary *)options {
 
   NSString *label = [options objectForKey:@"cancelButtonLabel"];
-  [self.cancelButton setTitle:label forState:UIControlStateNormal];
+  [self.cancelButton setTitle:label];
   
   NSString *tintColorHex = [options objectForKey:@"cancelButtonColor"];
   self.cancelButton.tintColor = [self colorFromHexString: tintColorHex];
@@ -270,7 +273,7 @@
 - (void)updateDoneButton:(NSMutableDictionary *)options {
   
   NSString *label = [options objectForKey:@"doneButtonLabel"];
-  [self.doneButton setTitle:label forState:UIControlStateNormal];
+  [self.doneButton setTitle:label];
   
   NSString *tintColorHex = [options objectForKey:@"doneButtonColor"];
   [self.doneButton setTintColor: [self colorFromHexString: tintColorHex]];
