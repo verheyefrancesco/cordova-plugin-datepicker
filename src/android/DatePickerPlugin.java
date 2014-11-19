@@ -6,260 +6,154 @@
 
 package com.plugin.datepicker;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
-import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.Dialog;
-import android.app.TimePickerDialog;
-import android.app.TimePickerDialog.OnTimeSetListener;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.widget.DatePicker;
-import android.widget.DatePicker.OnDateChangedListener;
-import android.widget.TimePicker;
 
-import org.apache.cordova.CordovaWebView;
-import org.apache.cordova.CallbackContext;
-import org.apache.cordova.CordovaPlugin;
+import com.plugin.datepicker.DateTimePickerDialog.DateTimePickerCallback;
 
-import android.os.Build;
-
-@SuppressWarnings("deprecation")
 @SuppressLint("NewApi")
-public class DatePickerPlugin extends CordovaPlugin {
-
-	private static final String ACTION_DATE = "date";
-	private static final String ACTION_TIME = "time";
+public class DatePickerPlugin extends CordovaPlugin implements
+		DateTimePickerCallback {
 	private final String pluginName = "DatePickerPlugin";
 
+	private static final String ARG_MODE = "mode";
+	private static final String ARG_DATE = "date";
+	private static final String ARG_MIN_DATE = "minDate";
+	private static final String ARG_MAX_DATE = "maxDate";
+	private static final String ARG_MINUTE_INTERVAL = "minuteInterval";
+	private static final String ARG_POSITIVE_BUTTON_TEXT = "positiveButtonText";
+	private static final String ARG_NEGATIVE_BUTTON_TEXT = "negativeButtonText";
+	private static final String ARG_SET_DATE_TITLE = "setDateTitle";
+	private static final String ARG_SET_TIME_TITLE = "setTimeTitle";
+
+	private String mode = "date";
+	private long initDate = -1;
+	private long minDate = -1;
+	private long maxDate = -1;
+	private int minuteInterval = 1;
+	private String positiveButtonText = "Set";
+	private String negativeButtonText = "Cancel";
+	private String setDateTitle = "Set date";
+	private String setTimeTitle = "Set time";
+
+	private DateTimePickerDialog dateTimePickerDialog;
+
+	private CallbackContext callbackContext;
+
+	// http://pastebin.com/K5stMFf9
+
 	@Override
-	public boolean execute(final String action, final JSONArray data, final CallbackContext callbackContext) {
+	public boolean execute(final String action, final JSONArray data,
+			final CallbackContext callbackContext) {
 		Log.d(pluginName, "DatePicker called with options: " + data);
 		boolean result = false;
 
 		this.show(data, callbackContext);
+
+		this.callbackContext = callbackContext;
+
 		result = true;
 
 		return result;
 	}
 
-	public synchronized void show(final JSONArray data, final CallbackContext callbackContext) {
-		final DatePickerPlugin datePickerPlugin = this;
-		final Context currentCtx = cordova.getActivity();
-		final Calendar c = Calendar.getInstance();
-		final Runnable runnable;
+	public synchronized void show(final JSONArray data,
+			final CallbackContext callbackContext) {
+		readParametersFromData(data);
+		showDateTimePicker();
+	}
 
-		String action = "date";
-		long minDateLong = 0, maxDateLong = 0;
-
-		int month = -1, day = -1, year = -1, hour = -1, min = -1;
+	private void readParametersFromData(JSONArray data) {
 		try {
 			JSONObject obj = data.getJSONObject(0);
-			action = obj.getString("mode");
-
-			String optionDate = obj.getString("date");
-
-			String[] datePart = optionDate.split("/");
-			month = Integer.parseInt(datePart[0]);
-			day = Integer.parseInt(datePart[1]);
-			year = Integer.parseInt(datePart[2]);
-			hour = Integer.parseInt(datePart[3]);
-			min = Integer.parseInt(datePart[4]);
-
-			minDateLong = obj.getLong("minDate");
-			maxDateLong = obj.getLong("maxDate");
-
+			if (obj.has(ARG_MODE)) {
+				mode = obj.getString(ARG_MODE);
+			}
+			if (obj.has(ARG_DATE)) {
+				initDate = obj.getLong(ARG_DATE);
+			}
+			if (obj.has(ARG_MIN_DATE)) {
+				minDate = obj.getLong(ARG_MIN_DATE);
+			}
+			if (obj.has(ARG_MAX_DATE)) {
+				maxDate = obj.getLong(ARG_MAX_DATE);
+			}
+			if (obj.has(ARG_MINUTE_INTERVAL)) {
+				minuteInterval = obj.getInt(ARG_MINUTE_INTERVAL);
+			}
+			if (obj.has(ARG_POSITIVE_BUTTON_TEXT)) {
+				positiveButtonText = obj.getString(ARG_POSITIVE_BUTTON_TEXT);
+			}
+			if (obj.has(ARG_NEGATIVE_BUTTON_TEXT)) {
+				negativeButtonText = obj.getString(ARG_NEGATIVE_BUTTON_TEXT);
+			}
+			if (obj.has(ARG_SET_DATE_TITLE)) {
+				setDateTitle = obj.getString(ARG_SET_DATE_TITLE);
+			}
+			if (obj.has(ARG_SET_TIME_TITLE)) {
+				setTimeTitle = obj.getString(ARG_SET_TIME_TITLE);
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+	}
 
-		// By default initalize these fields to 'now'
-		final int mYear = year == -1 ? c.get(Calendar.YEAR) : year;
-		final int mMonth = month == -1 ? c.get(Calendar.MONTH) : month - 1;
-		final int mDay = day == -1 ? c.get(Calendar.DAY_OF_MONTH) : day;
-		final int mHour = hour == -1 ? c.get(Calendar.HOUR_OF_DAY) : hour;
-		final int mMinutes = min == -1 ? c.get(Calendar.MINUTE) : min;
+	private DateTimePickerConfig createPickerConfig() {
+		DateTimePickerConfig config = new DateTimePickerConfig(mode, initDate,
+				minDate, maxDate, minuteInterval, positiveButtonText,
+				negativeButtonText, setDateTitle, setTimeTitle);
+		return config;
+	}
 
-		final long minDate = minDateLong;
-		final long maxDate = maxDateLong;
+	private void showDateTimePicker() {
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				DateTimePickerConfig config = createPickerConfig();
 
-		if (ACTION_TIME.equalsIgnoreCase(action)) {
-			runnable = new Runnable() {
-				@Override
-				public void run() {
-					final TimeSetListener timeSetListener = new TimeSetListener(datePickerPlugin, callbackContext);
-					final TimePickerDialog timeDialog = new TimePickerDialog(currentCtx, timeSetListener, mHour,
-							mMinutes, true);
-					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-						timeDialog.setCancelable(true);
-						timeDialog.setCanceledOnTouchOutside(false);
-						timeDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								callbackContext.success("cancel");
-							}
-						});
-						timeDialog.setOnKeyListener(new Dialog.OnKeyListener() {
-							@Override
-							public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-								// TODO Auto-generated method stub
-								//callbackContext.success("");
-								return false;
-							}
-						});
-					}
-					timeDialog.show();
-				}
-			};
-
-		} else if (ACTION_DATE.equalsIgnoreCase(action)) {
-			runnable = new Runnable() {
-				@Override
-				public void run() {
-					final DateSetListener dateSetListener = new DateSetListener(datePickerPlugin, callbackContext);
-					final DatePickerDialog dateDialog = new DatePickerDialog(currentCtx, dateSetListener, mYear,
-							mMonth, mDay);
-					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-						DatePicker dp = dateDialog.getDatePicker();
-						if(minDate > 0) {
-							dp.setMinDate(minDate);
-						}
-						if(maxDate > 0 && maxDate > minDate) {
-							dp.setMaxDate(maxDate);
-						}
-
-						dateDialog.setCancelable(true);
-						dateDialog.setCanceledOnTouchOutside(false);
-						dateDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-				            @Override
-				            public void onClick(DialogInterface dialog, int which) {
-								callbackContext.success("cancel");
-				            }
-				        });
-						dateDialog.setOnKeyListener(new Dialog.OnKeyListener() {
-							@Override
-							public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-								// TODO Auto-generated method stub
-								//callbackContext.success("");
-								return false;
-							}
-						});
-					}
-					else {
-						java.lang.reflect.Field mDatePickerField = null;
-						try {
-							mDatePickerField = dateDialog.getClass().getDeclaredField("mDatePicker");
-						} catch (NoSuchFieldException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						mDatePickerField.setAccessible(true);
-						DatePicker pickerView = null;
-						try {
-							pickerView = (DatePicker) mDatePickerField.get(dateDialog);
-						} catch (IllegalArgumentException e) {
-							e.printStackTrace();
-						} catch (IllegalAccessException e) {
-							e.printStackTrace();
-						}
-
-						final Calendar startDate = Calendar.getInstance();
-						startDate.setTimeInMillis(minDate);
-						final Calendar endDate = Calendar.getInstance();
-						endDate.setTimeInMillis(maxDate);
-
-						final int minYear = startDate.get(Calendar.YEAR);
-					    final int minMonth = startDate.get(Calendar.MONTH);
-					    final int minDay = startDate.get(Calendar.DAY_OF_MONTH);
-					    final int maxYear = endDate.get(Calendar.YEAR);
-					    final int maxMonth = endDate.get(Calendar.MONTH);
-					    final int maxDay = endDate.get(Calendar.DAY_OF_MONTH);
-
-						if(startDate !=null || endDate != null) {
-							pickerView.init(mYear, mMonth, mDay, new OnDateChangedListener() {
-				                @Override
-								public void onDateChanged(DatePicker view, int year, int month, int day) {
-				                	if(maxDate > 0 && maxDate > minDate) {
-					                	if(year > maxYear || month > maxMonth && year == maxYear || day > maxDay && year == maxYear && month == maxMonth){
-					                		view.updateDate(maxYear, maxMonth, maxDay);
-					                	}
-				                	}
-				                	if(minDate > 0) {
-					                	if(year < minYear || month < minMonth && year == minYear || day < minDay && year == minYear && month == minMonth) {
-					                		view.updateDate(minYear, minMonth, minDay);
-					                	}
-				                	}
-			                	}
-				            });
-						}
-					}
-					dateDialog.show();
-				}
-			};
-
-		} else {
-			Log.d(pluginName, "Unknown action. Only 'date' or 'time' are valid actions");
-			return;
-		}
-
+				dateTimePickerDialog = new DateTimePickerDialog(
+						cordova.getActivity(), config, DatePickerPlugin.this);
+				dateTimePickerDialog.show();
+			}
+		};
 		cordova.getActivity().runOnUiThread(runnable);
 	}
 
-	private final class DateSetListener implements OnDateSetListener {
-		private final DatePickerPlugin datePickerPlugin;
-		private final CallbackContext callbackContext;
-
-		private DateSetListener(DatePickerPlugin datePickerPlugin, CallbackContext callbackContext) {
-			this.datePickerPlugin = datePickerPlugin;
-			this.callbackContext = callbackContext;
-		}
-
-		/**
-		 * Return a string containing the date in the format YYYY/MM/DD
-		 */
-		@Override
-		public void onDateSet(final DatePicker view, final int year, final int monthOfYear, final int dayOfMonth) {
-			String returnDate = year + "/" + (monthOfYear + 1) + "/" + dayOfMonth;
-			callbackContext.success(returnDate);
-		}
+	/* DateTimePickerCallback */
+	@Override
+	public void onCanceled() {
+		dateTimePickerDialog.dismiss();
+		callbackContext.success("cancel");
 	}
 
-	private final class TimeSetListener implements OnTimeSetListener {
-		private final DatePickerPlugin datePickerPlugin;
-		private final CallbackContext callbackContext;
+	@Override
+	public void onDateTimePicked(int day, int month, int year, int hour,
+			int minute) {
+		dateTimePickerDialog.dismiss();
 
-		private TimeSetListener(DatePickerPlugin datePickerPlugin, CallbackContext callbackContext) {
-			this.datePickerPlugin = datePickerPlugin;
-			this.callbackContext = callbackContext;
-		}
+		Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+		calendar.set(calendar.DAY_OF_MONTH, day);
+		calendar.set(Calendar.MONTH, month);
+		calendar.set(Calendar.YEAR, year);
+		calendar.set(Calendar.HOUR_OF_DAY, hour);
+		calendar.set(Calendar.MINUTE, minute);
 
-		/**
-		 * Return the current date with the time modified as it was set in the
-		 * time picker.
-		 */
-		@Override
-		public void onTimeSet(final TimePicker view, final int hourOfDay, final int minute) {			
-			Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-			calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-			calendar.set(Calendar.MINUTE, minute);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'",
+				Locale.getDefault());
+		sdf.setTimeZone(TimeZone.getDefault());
+		String toReturn = sdf.format(calendar.getTime());
 
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"); 
-			sdf.setTimeZone(TimeZone.getTimeZone("GMT"));  
-			String toReturn = sdf.format(calendar.getTime());
-
-			callbackContext.success(toReturn);
-		}
+		callbackContext.success(toReturn);
 	}
-
 }

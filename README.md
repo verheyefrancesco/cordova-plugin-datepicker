@@ -23,13 +23,29 @@ phonegap local plugin add https://github.com/VitaliiBlagodir/cordova-plugin-date
 ## Usage
 
 ```js
+var date = new Date('November 20, 2014 11:13:00').getTime();
+var minDate = new Date().getTime();
+var maxDate = new Date('March 25, 2015 23:59:00').getTime();
+var minuteInterval = 5;
+var positiveButtonText = 'Ok';
+var negativeButtonText = 'Annuleer';
+var setDateTitle = 'Datum instellen';
+var setTimeTitle = 'Tijd instellen';
+            
 var options = {
-  date: new Date(),
-  mode: 'date'
+	mode: mode,
+    date: date,
+    minDate: minDate,
+    maxDate: maxDate,
+    minuteInterval: minuteInterval,
+    positiveButtonText: positiveButtonText,
+    negativeButtonText: negativeButtonText,
+    setDateTitle: setDateTitle,
+    setTimeTitle: setTimeTitle
 };
 
 datePicker.show(options, function(date){
-  alert("date result " + date);  
+	alert("date result " + date);  
 });
 ```
 
@@ -40,76 +56,65 @@ The mode of the date picker.
 
 Type: String
 
-Values: `date` | `time` | `datetime` (iOS only)
+Values: `date` | `time` | `datetime`
 
 Default: `date`
 
 ### date - iOS, Android
 Selected date.
 
-Type: String
+Type: long
 
-Default: `new Date()`
+Default: `-1 (will use current date/time)`
 
 ### minDate - iOS, Android
 Minimum date.
 
-Type: Date | empty String
+Type: long
 
-Default: `(empty String)`
+Default: `-1`
 
 ### maxDate - iOS, Android
 Maximum date.
 
-Type: Date | empty String
+Type: long
 
-Default: `(empty String)` 
+Default: `-1` 
 
-### allowOldDates - iOS
-Shows or hide dates earlier then selected date.
+### minuteInterval - iOS, Android
+Interval between options in the minute section of the date picker.
 
-Type: Boolean
+Type: Integer
 
-Values: `true` | `false`
+Default: `1`
 
-Default: `true`
-
-### allowFutureDates - iOS
-Shows or hide dates after selected date.
-
-Type: Boolean
-
-Values: `true` | `false`
-
-Default: `true`
-
-### doneButtonLabel - iOS
-Label of done button.
+### positiveButtonText - iOS, Android
+Label of possitive button.
 
 Typ: String
 
-Default: `Done`
+Default: `Set`
 
-### doneButtonColor - iOS
-Hex color of done button.
-
-Typ: String
-
-Default: `#0000FF`
-
-### cancelButtonLabel - iOS
-Label of cancel button.
+### negativeButtonText - iOS, Android
+Label of negative button.
 
 Type: String
 
 Default: `Cancel`
 
-### cancelButtonColor - iOS
-Hex color of cancel button.
+### setDateTitle - iOS, Android
+Title when user must select a date
 
 Type: String
 
-Default: `#000000`
+Default: `Set date`
+
+### setTimeTitle - iOS, Android
+Title when user must select a time
+
+Type: String
+
+Default: `Set time`
 
 ### x - iOS (iPad only)
 X position of date picker. The position is absolute to the root view of the application.
@@ -125,13 +130,6 @@ Type: String
 
 Default: `0`
 
-### minuteInterval - iOS
-Interval between options in the minute section of the date picker.
-
-Type: Integer
-
-Default: `1`
-
 ## Requirements
 - PhoneGap 3.0 or newer / Cordova 3.0 or newer
 - Android 2.3.1 or newer / iOS 5 or newer
@@ -139,9 +137,25 @@ Default: `1`
 ## Example
 
 ```js
+var date = new Date('November 20, 2014 11:13:00').getTime();
+var minDate = new Date().getTime();
+var maxDate = new Date('March 25, 2015 23:59:00').getTime();
+var minuteInterval = 5;
+var positiveButtonText = 'Ok';
+var negativeButtonText = 'Annuleer';
+var setDateTitle = 'Datum instellen';
+var setTimeTitle = 'Tijd instellen';
+            
 var options = {
-  date: new Date(),
-  mode: 'date'
+	mode: mode,
+    date: date,
+    minDate: minDate,
+    maxDate: maxDate,
+    minuteInterval: minuteInterval,
+    positiveButtonText: positiveButtonText,
+    negativeButtonText: negativeButtonText,
+    setDateTitle: setDateTitle,
+    setTimeTitle: setTimeTitle
 };
 
 datePicker.show(options, function(date){
