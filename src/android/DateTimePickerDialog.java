@@ -1,4 +1,4 @@
-package be.bitmunks.plugin.datetimepicker;
+package be.bitmunks.plugin.datepicker;
 
 import java.util.Calendar;
 
@@ -77,10 +77,9 @@ public class DateTimePickerDialog extends Dialog implements
 	/* ActionButtons onClick */
 	@Override
 	public void onClick(View v) {
-		if(v.getId() == R.id.btnPositiveButton){
+		if (v.getId() == R.id.btnPositiveButton) {
 			positiveButtonClicked();
-		}
-		if(v.getId() == R.id.btnNegativeButton){
+		} else if (v.getId() == R.id.btnNegativeButton) {
 			negativeButtonClicked();
 		}
 	}
