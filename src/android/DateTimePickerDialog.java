@@ -2,8 +2,11 @@ package be.bitmunks.plugin.datepicker;
 
 import java.util.Calendar;
 
+import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -39,9 +42,9 @@ public class DateTimePickerDialog extends Dialog implements
 
 	private String[] minuteValuesForTimePicker;
 
-	private Context mContext;
+	private Activity mContext;
 
-	public DateTimePickerDialog(Context a, DateTimePickerConfig config,
+	public DateTimePickerDialog(Activity a, DateTimePickerConfig config,
 			DateTimePickerCallback callback) {
 		super(a);
 		mContext = a;
@@ -245,9 +248,18 @@ public class DateTimePickerDialog extends Dialog implements
 
 	private static final String RESOURCE_TYPE_LAYOUT = "layout";
 	private static final String RESOURCE_TYPE_ID = "id";
+	private String packageName;
 
 	private int getIdFromProjectsRFile(String resourceType, String id) {
-		String packageName = mContext.getApplicationContext().getPackageName();
+		if (packageName == null) {
+			try {
+				PackageManager pm = mContext.getPackageManager();
+				PackageInfo packageInfo = pm.getPackageInfo(
+						mContext.getPackageName(), 0);
+				packageName = packageInfo.packageName;
+			} catch (NameNotFoundException e) {
+			}
+		}
 		Resources resources = mContext.getApplicationContext().getResources();
 		return resources.getIdentifier("my_activity_layout", resourceType,
 				packageName);
