@@ -1,4 +1,4 @@
-package com.plugin.datepicker;
+package be.bitmunks.plugin.datetimepicker;
 
 public class DateTimePickerConfig {
 

@@ -1,4 +1,4 @@
-package com.plugin.datepicker;
+package be.bitmunks.plugin.datetimepicker;
 
 import java.util.Calendar;
 
@@ -12,8 +12,6 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TimePicker;
-
-import com.example.hello.R;
 
 public class DateTimePickerDialog extends Dialog implements
 		android.view.View.OnClickListener {
@@ -79,14 +77,11 @@ public class DateTimePickerDialog extends Dialog implements
 	/* ActionButtons onClick */
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.btnPositiveButton:
+		if(v.getId() == R.id.btnPositiveButton){
 			positiveButtonClicked();
-			break;
-		case R.id.btnNegativeButton:
+		}
+		if(v.getId() == R.id.btnNegativeButton){
 			negativeButtonClicked();
-		default:
-			break;
 		}
 	}
 
