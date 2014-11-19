@@ -151,7 +151,8 @@ public class DatePickerPlugin extends CordovaPlugin implements
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'",
 				Locale.getDefault());
-		sdf.setTimeZone(TimeZone.getDefault());
+		//sdf.setTimeZone(TimeZone.getDefault());
+		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 		String toReturn = sdf.format(calendar.getTime());
 
 		callbackContext.success(toReturn);
