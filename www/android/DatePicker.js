@@ -15,20 +15,17 @@ function DatePicker() {
  */
 DatePicker.prototype.show = function(options, cb) {
   
-	if (options.date) {
-		options.date = (options.date.getMonth() + 1) + "/" + 
-					   (options.date.getDate()) + "/" + 
-					   (options.date.getFullYear()) + "/" + 
-					   (options.date.getHours()) + "/" + 
-					   (options.date.getMinutes());
-	}
-
 	var defaults = {
-		mode : 'date',
-		date : '',
-		minDate: 0,
-		maxDate: 0
-	};
+        mode : 'date',
+        date : -1,
+        minDate: -1,
+        maxDate: -1,
+        minuteInterval:1,
+        positiveButtonText: 'Set',
+        negativeButtonText: 'Cancel',
+        setDateTitle: 'Set date',
+        setTimeTitle: 'Set time'
+    };
 
 	for (var key in defaults) {
 		if (typeof options[key] !== "undefined") {
