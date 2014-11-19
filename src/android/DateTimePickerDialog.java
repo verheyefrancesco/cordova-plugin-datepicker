@@ -88,9 +88,11 @@ public class DateTimePickerDialog extends Dialog implements
 	/* ActionButtons onClick */
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.btnPositiveButton) {
+		if (v.getId() == getIdFromProjectsRFile(RESOURCE_TYPE_ID,
+				"btnPositiveButton")) {
 			positiveButtonClicked();
-		} else if (v.getId() == R.id.btnNegativeButton) {
+		} else if (v.getId() == getIdFromProjectsRFile(RESOURCE_TYPE_ID,
+				"btnNegativeButton")) {
 			negativeButtonClicked();
 		}
 	}
