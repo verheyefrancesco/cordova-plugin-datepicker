@@ -27,7 +27,7 @@
         <source-file src="src/android/DatePickerPlugin.java" target-dir="src/com/plugin/datepicker" />
         <source-file src="src/android/DateTimePickerConfig.java" target-dir="src/com/plugin/datepicker" />
         <source-file src="src/android/DateTimePickerDialog.java" target-dir="src/com/plugin/datepicker" />
-        <source-file src="res/layout/dialog_date_time.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/layout/dialog_date_time.xml" target-dir="res/layout" />
     </platform>
 	
     <!-- ios -->
