@@ -250,7 +250,7 @@ public class DateTimePickerDialog extends Dialog implements
 	private static final String RESOURCE_TYPE_ID = "id";
 	private String packageName;
 
-	private int getIdFromProjectsRFile(String resourceType, String id) {
+	private int getIdFromProjectsRFile(String resourceType, String resourceId) {
 		if (packageName == null) {
 			try {
 				PackageManager pm = mContext.getPackageManager();
@@ -261,7 +261,6 @@ public class DateTimePickerDialog extends Dialog implements
 			}
 		}
 		Resources resources = mContext.getApplicationContext().getResources();
-		return resources.getIdentifier("my_activity_layout", resourceType,
-				packageName);
+		return resources.getIdentifier(resourceId, resourceType, packageName);
 	}
 }
