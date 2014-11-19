@@ -29,47 +29,18 @@ DatePicker.prototype.show = function(options, cb) {
       return date;
     };
 
-    var formatDate = function(date){
-      date = date.getFullYear() 
-            + "-" 
-            + padDate(date.getMonth()+1) 
-            + "-" 
-            + padDate(date.getDate()) 
-            + "T" 
-            + padDate(date.getHours()) 
-            + ":" 
-            + padDate(date.getMinutes()) 
-            + ":00Z";
-
-      return date
-    }
-
-    if (options.date) {
-        options.date = formatDate(options.date);
-    }
-
-    if (options.minDate) {
-        options.minDate = formatDate(options.minDate);
-    }
-
-    if (options.maxDate) {
-        options.maxDate = formatDate(options.maxDate);
-    }
-
     var defaults = {
-        mode: 'date',
-        date: new Date(),
-        allowOldDates: true,
-        allowFutureDates: true,
-        minDate: '',
-        maxDate: '',
-        doneButtonLabel: 'Done',
-        doneButtonColor: '#000000',
-        cancelButtonLabel: 'Cancel',
-        cancelButtonColor: '#000000',
+        mode : 'date',
+        date : -1,
+        minDate: -1,
+        maxDate: -1,
+        minuteInterval:1,
+        positiveButtonText: 'Set',
+        negativeButtonText: 'Cancel',
+        setDateTitle: 'Set date',
+        setTimeTitle: 'Set time',
         x: '0',
         y: '0',
-        minuteInterval: 1
     };
 
     for (var key in defaults) {
