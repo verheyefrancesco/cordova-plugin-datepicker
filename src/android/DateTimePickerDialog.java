@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,9 +39,12 @@ public class DateTimePickerDialog extends Dialog implements
 
 	private String[] minuteValuesForTimePicker;
 
+	private Context mContext;
+
 	public DateTimePickerDialog(Context a, DateTimePickerConfig config,
 			DateTimePickerCallback callback) {
 		super(a);
+		mContext = a;
 		mConfig = config;
 		mCallback = callback;
 
@@ -50,18 +54,25 @@ public class DateTimePickerDialog extends Dialog implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.dialog_date_time);
+		setContentView(getIdFromProjectsRFile(RESOURCE_TYPE_LAYOUT,
+				"dialog_date_time"));
 		setWidgets();
 		updateUIForCurrentType();
 	}
 
 	private void setWidgets() {
-		llDatePickerContainer = (LinearLayout) findViewById(R.id.dtpdDateContainer);
-		llTimePickerContainer = (LinearLayout) findViewById(R.id.dtpdTimeContainer);
-		datePicker = (DatePicker) findViewById(R.id.dtpdDatePicker);
-		timePicker = (TimePicker) findViewById(R.id.dtpdTimePicker);
-		btnPositive = (Button) findViewById(R.id.btnPositiveButton);
-		btnNegative = (Button) findViewById(R.id.btnNegativeButton);
+		llDatePickerContainer = (LinearLayout) findViewById(getIdFromProjectsRFile(
+				RESOURCE_TYPE_ID, "dtpdDateContainer"));
+		llTimePickerContainer = (LinearLayout) findViewById(getIdFromProjectsRFile(
+				RESOURCE_TYPE_ID, "dtpdTimeContainer"));
+		datePicker = (DatePicker) findViewById(getIdFromProjectsRFile(
+				RESOURCE_TYPE_ID, "dtpdDatePicker"));
+		timePicker = (TimePicker) findViewById(getIdFromProjectsRFile(
+				RESOURCE_TYPE_ID, "dtpdTimePicker"));
+		btnPositive = (Button) findViewById(getIdFromProjectsRFile(
+				RESOURCE_TYPE_ID, "btnPositiveButton"));
+		btnNegative = (Button) findViewById(getIdFromProjectsRFile(
+				RESOURCE_TYPE_ID, "btnNegativeButton"));
 
 		setActionButtons();
 	}
@@ -224,5 +235,19 @@ public class DateTimePickerDialog extends Dialog implements
 				int minute);
 
 		public void onCanceled();
+	}
+
+	/*
+	 * R.java util
+	 */
+
+	private static final String RESOURCE_TYPE_LAYOUT = "layout";
+	private static final String RESOURCE_TYPE_ID = "id";
+
+	private int getIdFromProjectsRFile(String resourceType, String id) {
+		String packageName = mContext.getApplicationContext().getPackageName();
+		Resources resources = mContext.getApplicationContext().getResources();
+		return resources.getIdentifier("my_activity_layout", resourceType,
+				packageName);
 	}
 }
