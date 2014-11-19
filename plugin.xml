@@ -28,7 +28,7 @@
         <source-file src="src/android/DateTimePickerConfig.java" target-dir="src/be/bitmunks/plugin/datepicker" />
         <source-file src="src/android/DateTimePickerDialog.java" target-dir="src/be/bitmunks/plugin/datepicker" />
         <source-file src="src/android/res/layout/dialog_date_time.xml" target-dir="res/layout" />
-        <source-file src="src/android/gen/be/bitmunks/plugin/datetimepicker/R.java" target-dir="gen/be/bitmunks/plugin/datetimepicker" />
+        <source-file src="src/android/gen/be/bitmunks/plugin/datepicker/R.java" target-dir="gen/be/bitmunks/plugin/datepicker" />
     </platform>
 	
     <!-- ios -->
