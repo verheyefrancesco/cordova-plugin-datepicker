@@ -1,4 +1,4 @@
-package be.bitmunks.plugin.datepicker;
+package com.checkroom.plugin.datepicker;
 
 public class DateTimePickerConfig {
 

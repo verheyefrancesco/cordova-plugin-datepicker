@@ -4,7 +4,7 @@
  * It can now accept `min` and `max` dates for DatePicker.
  */
 
-package be.bitmunks.plugin.datepicker;
+package com.checkroom.plugin.datepicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -17,9 +17,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.checkroom.plugin.datepicker.DateTimePickerDialog.DateTimePickerCallback;
+
 import android.annotation.SuppressLint;
 import android.util.Log;
-import be.bitmunks.plugin.datepicker.DateTimePickerDialog.DateTimePickerCallback;
 
 @SuppressLint("NewApi")
 public class DatePickerPlugin extends CordovaPlugin implements
