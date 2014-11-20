@@ -23,10 +23,9 @@ phonegap local plugin add https://github.com/VitaliiBlagodir/cordova-plugin-date
 ## Usage
 
 ```js
-var date = new Date('November 20, 2014 11:13:00').getTime();
-var minDate = new Date().getTime();
-var maxDate = new Date('March 25, 2015 23:59:00').getTime();
-var minuteInterval = 5;
+var date = new Date().getTime();
+var minDate = new Date('November 18, 2014 11:15:00').getTime();
+var maxDate = new Date('March 25, 2015 23:55:00').getTime();var minuteInterval = 5;
 var positiveButtonText = 'Ok';
 var negativeButtonText = 'Annuleer';
 var setDateTitle = 'Datum instellen';
@@ -102,14 +101,14 @@ Type: String
 
 Default: `Cancel`
 
-### setDateTitle - iOS, Android
+### setDateTitle - Android
 Title when user must select a date
 
 Type: String
 
 Default: `Set date`
 
-### setTimeTitle - iOS, Android
+### setTimeTitle - Android
 Title when user must select a time
 
 Type: String
@@ -137,9 +136,9 @@ Default: `0`
 ## Example
 
 ```js
-var date = new Date('November 20, 2014 11:13:00').getTime();
-var minDate = new Date().getTime();
-var maxDate = new Date('March 25, 2015 23:59:00').getTime();
+var date = new Date().getTime();
+var minDate = new Date('November 18, 2014 11:15:00').getTime();
+var maxDate = new Date('March 25, 2015 23:55:00').getTime();var minuteInterval = 5;
 var minuteInterval = 5;
 var positiveButtonText = 'Ok';
 var negativeButtonText = 'Annuleer';
