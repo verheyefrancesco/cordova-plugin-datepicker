@@ -171,7 +171,7 @@
 {
     NSLog(@"JS Cancel is going to be executed");
     NSString* jsCallback = [NSString stringWithFormat:@"datePicker._dateSelectionCanceled();"];
-    [super writeJavascript:jsCallback];
+    [self.commandDelegate evalJs:jsCallback];
 }
 
 - (void)jsDateSelected
@@ -179,7 +179,7 @@
     NSTimeInterval seconds = [self.datePicker.date timeIntervalSince1970];
     NSString* jsCallback = [NSString stringWithFormat:@"datePicker._dateSelected(\"%f\");", seconds];
     //NSLog(jsCallback);
-    [super writeJavascript:jsCallback];
+    [self.commandDelegate evalJs:jsCallback];
 }
 
 #pragma mark - UIPopoverControllerDelegate methods
