@@ -1,9 +1,12 @@
 # DatePicker Plugin for Cordova/PhoneGap 3.0 (iOS and Android)
 
-This is a combined version of DatePicker iOS and Android plugin for Cordova/Phonegap 3.0.
-- Original iOS version: https://github.com/sectore/phonegap3-ios-datepicker-plugin
 
-- Original Android version: https://github.com/bikasv/cordova-android-plugins/tree/master/datepicker
+![Alt text](/screenshots/iOS/date.PNG?raw=true "date - iOS")
+![Alt text](/screenshots/Android/date.PNG?raw=true "date - Android")
+![Alt text](/screenshots/iOS/time.PNG?raw=true "time - iOS")
+![Alt text](/screenshots/Android/time.PNG?raw=true "time - Android")
+![Alt text](/screenshots/iOS/datetime.PNG?raw=true "datetime - iOS")
+![Alt text](/screenshots/iOS/result.PNG?raw=true "result - iOS")
 
 ## Installation
 
@@ -12,12 +15,12 @@ This is a combined version of DatePicker iOS and Android plugin for Cordova/Phon
 2) Add a plugin to your project using Cordova CLI:
 
 ```bash
-cordova plugin add https://github.com/VitaliiBlagodir/cordova-plugin-datepicker
+cordova plugin add https://github.com/francescobitmunks/cordova-plugin-datepicker/
 ```
 Or using PhoneGap CLI:
 
 ```bash
-phonegap local plugin add https://github.com/VitaliiBlagodir/cordova-plugin-datepicker
+phonegap local plugin add https://github.com/francescobitmunks/cordova-plugin-datepicker/
 ```
 
 ## Usage
@@ -25,11 +28,12 @@ phonegap local plugin add https://github.com/VitaliiBlagodir/cordova-plugin-date
 ```js
 var date = new Date().getTime();
 var minDate = new Date('November 18, 2014 11:15:00').getTime();
-var maxDate = new Date('March 25, 2015 23:55:00').getTime();var minuteInterval = 5;
+var maxDate = new Date('March 25, 2015 23:55:00').getTime();
+var minuteInterval = 5;
 var positiveButtonText = 'Ok';
-var negativeButtonText = 'Annuleer';
-var setDateTitle = 'Datum instellen';
-var setTimeTitle = 'Tijd instellen';
+var negativeButtonText = 'Cancel';
+var setDateTitle = 'Set date';
+var setTimeTitle = 'Set time';
             
 var options = {
 	mode: mode,
@@ -132,32 +136,3 @@ Default: `0`
 ## Requirements
 - PhoneGap 3.0 or newer / Cordova 3.0 or newer
 - Android 2.3.1 or newer / iOS 5 or newer
-
-## Example
-
-```js
-var date = new Date().getTime();
-var minDate = new Date('November 18, 2014 11:15:00').getTime();
-var maxDate = new Date('March 25, 2015 23:55:00').getTime();var minuteInterval = 5;
-var minuteInterval = 5;
-var positiveButtonText = 'Ok';
-var negativeButtonText = 'Annuleer';
-var setDateTitle = 'Datum instellen';
-var setTimeTitle = 'Tijd instellen';
-            
-var options = {
-	mode: mode,
-    date: date,
-    minDate: minDate,
-    maxDate: maxDate,
-    minuteInterval: minuteInterval,
-    positiveButtonText: positiveButtonText,
-    negativeButtonText: negativeButtonText,
-    setDateTitle: setDateTitle,
-    setTimeTitle: setTimeTitle
-};
-
-datePicker.show(options, function(date){
-  alert("date result " + date);  
-});
-```
