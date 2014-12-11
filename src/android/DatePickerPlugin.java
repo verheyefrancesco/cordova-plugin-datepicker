@@ -1,8 +1,3 @@
-/**
- * @author Bikas Vaibhav (http://bikasv.com) 2013
- * Rewrote the plug-in at https://github.com/phonegap/phonegap-plugins/tree/master/Android/DatePicker
- * It can now accept `min` and `max` dates for DatePicker.
- */
 
 package com.checkroom.plugin.datepicker;
 
@@ -17,12 +12,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.checkroom.plugin.datepicker.DateTimePickerDialog.DateTimePickerCallback;
-
-import android.annotation.SuppressLint;
 import android.util.Log;
 
-@SuppressLint("NewApi")
+import com.checkroom.plugin.datepicker.DateTimePickerDialog.DateTimePickerCallback;
+
 public class DatePickerPlugin extends CordovaPlugin implements
 		DateTimePickerCallback {
 	private final String pluginName = "DatePickerPlugin";
@@ -50,8 +43,6 @@ public class DatePickerPlugin extends CordovaPlugin implements
 	private DateTimePickerDialog dateTimePickerDialog;
 
 	private CallbackContext callbackContext;
-
-	// http://pastebin.com/K5stMFf9
 
 	@Override
 	public boolean execute(final String action, final JSONArray data,

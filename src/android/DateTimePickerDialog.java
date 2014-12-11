@@ -243,9 +243,8 @@ public class DateTimePickerDialog extends Dialog implements
 	}
 
 	/*
-	 * R.java util
+	 * R.java Utility
 	 */
-
 	private static final String RESOURCE_TYPE_LAYOUT = "layout";
 	private static final String RESOURCE_TYPE_ID = "id";
 	private String packageName;
