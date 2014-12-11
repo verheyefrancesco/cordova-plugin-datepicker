@@ -1,14 +1,12 @@
 /*
- 
  Phonegap DatePicker Plugin for using Cordova 3 and iOS 7
  https://github.com/sectore/phonegap3-ios-datepicker-plugin
  
- Based on a previous plugin version by Greg Allen and Sam de Freyssinet.
+ Based on a previous plugin version by Greg Allen and Sam de Freyssinet and Jens Krause and Jens Krause.
  
- Rewrite by Jens Krause (www.websector.de)
+ Rewrite by Francesco Verheye
  
  MIT Licensed
- 
  */
 
 #import "DatePicker.h"
@@ -24,6 +22,7 @@
 @property (nonatomic) IBOutlet UIDatePicker *datePicker;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
+
 @end
 
 @implementation DatePicker
@@ -140,7 +139,6 @@
                          } completion:^(BOOL finished) {
                              [self.datePickerContainer removeFromSuperview];
                          }];
-
     }
     else
     {
@@ -164,22 +162,6 @@
 - (void)dateChangedAction:(id)sender
 {
     [self jsDateSelected];
-}
-
-#pragma mark - JS API
-- (void)jsCancel
-{
-    NSLog(@"JS Cancel is going to be executed");
-    NSString* jsCallback = [NSString stringWithFormat:@"datePicker._dateSelectionCanceled();"];
-    [self.commandDelegate evalJs:jsCallback];
-}
-
-- (void)jsDateSelected
-{
-    NSTimeInterval seconds = [self.datePicker.date timeIntervalSince1970];
-    NSString* jsCallback = [NSString stringWithFormat:@"datePicker._dateSelected(\"%f\");", seconds];
-    //NSLog(jsCallback);
-    [self.commandDelegate evalJs:jsCallback];
 }
 
 #pragma mark - UIPopoverControllerDelegate methods
@@ -241,12 +223,10 @@
     {
         _minuteInterval = [[options objectForKey:@"minuteInterval"] integerValue];
     }
-    
     if([self doesDictionaryContainsKey:options andKey:@"negativeButtonText"])
     {
         _negativeButtonText = [options objectForKey:@"negativeButtonText"];
     }
-    
     if([self doesDictionaryContainsKey:options andKey:@"positiveButtonText"])
     {
         _positiveButtonText = [options objectForKey:@"positiveButtonText"];
@@ -296,34 +276,18 @@
     [self.cancelButton setTitle:_negativeButtonText];
 }
 
-- (NSDateFormatter *)createISODateFormatter:(NSString *)format timezone:(NSTimeZone *)timezone
+#pragma mark - JS API
+- (void)jsCancel
 {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    // Locale needed to avoid formatter bug on phones set to 12-hour
-    // time to avoid it adding AM/PM to the string we supply
-    // See: http://stackoverflow.com/questions/6613110/what-is-the-best-way-to-deal-with-the-nsdateformatter-locale-feature
-    NSLocale *loc = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
-    [dateFormatter setLocale: loc];
-    [dateFormatter setTimeZone:timezone];
-    [dateFormatter setDateFormat:format];
-  
-    return dateFormatter;
+    NSString* jsCallback = [NSString stringWithFormat:@"datePicker._dateSelectionCanceled();"];
+    [self.commandDelegate evalJs:jsCallback];
 }
 
-#pragma mark - Utilities
-
-/*! Converts a hex string into UIColor
- It based on http://stackoverflow.com/questions/1560081/how-can-i-create-a-uicolor-from-a-hex-string
- 
-  @param hexString The hex string which has to be converted
- */
-- (UIColor *)colorFromHexString:(NSString *)hexString
+- (void)jsDateSelected
 {
-    unsigned rgbValue = 0;
-    NSScanner *scanner = [NSScanner scannerWithString:hexString];
-    [scanner setScanLocation:1]; // bypass '#' character
-    [scanner scanHexInt:&rgbValue];
-    return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
+    NSTimeInterval seconds = [self.datePicker.date timeIntervalSince1970];
+    NSString* jsCallback = [NSString stringWithFormat:@"datePicker._dateSelected(\"%f\");", seconds];
+    [self.commandDelegate evalJs:jsCallback];
 }
 
 @end

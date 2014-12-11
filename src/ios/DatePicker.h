@@ -2,9 +2,9 @@
  Phonegap DatePicker Plugin for using Cordova 3 and iOS 7
  https://github.com/sectore/phonegap3-ios-datepicker-plugin
  
- Based on a previous plugin version by Greg Allen and Sam de Freyssinet.
+ Based on a previous plugin version by Greg Allen and Sam de Freyssinet and Jens Krause and Jens Krause.
  
- Rewrite by Jens Krause (www.websector.de)
+ Rewrite by Francesco Verheye
  
  MIT Licensed
 */
