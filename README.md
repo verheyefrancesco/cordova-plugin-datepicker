@@ -2,9 +2,9 @@
 
 
 ![Alt text](/screenshots/iOS/date.PNG?raw=true "date - iOS")
-![Alt text](/screenshots/Android/date.PNG?raw=true "date - Android")
+![Alt text](/screenshots/Android/date.png?raw=true "date - Android")
 ![Alt text](/screenshots/iOS/time.PNG?raw=true "time - iOS")
-![Alt text](/screenshots/Android/time.PNG?raw=true "time - Android")
+![Alt text](/screenshots/Android/time.png?raw=true "time - Android")
 ![Alt text](/screenshots/iOS/datetime.PNG?raw=true "datetime - iOS")
 ![Alt text](/screenshots/iOS/result.PNG?raw=true "result - iOS")
 
