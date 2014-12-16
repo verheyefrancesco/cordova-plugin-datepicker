@@ -12,7 +12,7 @@
 #import "DatePicker.h"
 #import <Cordova/CDV.h>
 
-@interface DatePicker ()
+@interface DatePickerPlugin ()
 
 @property (nonatomic) UIPopoverController *datePickerPopover;
 
@@ -25,7 +25,7 @@
 
 @end
 
-@implementation DatePicker
+@implementation DatePickerPlugin
 {
     NSString *_mode;
     double _initDate;

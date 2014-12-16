@@ -4,7 +4,7 @@
         id="com.checkroom.plugin.datepicker"
         version="0.4.0">
 
-    <name>DatePicker</name>
+    <name>DatePickerPlugin</name>
 	
     <description>Cordova DatePicker Plugin for iOS and Android</description>
 	
@@ -20,8 +20,8 @@
             </feature>
         </config-file>
 		
-        <js-module src="www/android/DatePicker.js" name="DatePicker">
-            <clobbers target="datePicker" />
+        <js-module src="www/android/DatePickerPlugin.js" name="DatePickerPlugin">
+            <clobbers target="datePickerPlugin" />
         </js-module>
 
         <source-file src="src/android/DatePickerPlugin.java" target-dir="src/com/checkroom/plugin/datepicker" />
@@ -35,18 +35,18 @@
     <platform name="ios">
 
         <config-file target="config.xml" parent="/*">
-		<feature name="DatePicker">
-			<param name="ios-package" value="DatePicker"/>
+		<feature name="DatePickerPlugin">
+			<param name="ios-package" value="DatePickerPlugin"/>
 		</feature>
         </config-file>
 
-        <js-module src="www/ios/DatePicker.js" name="DatePicker">
-            <clobbers target="datePicker" />
+        <js-module src="www/ios/DatePickerPlugin.js" name="DatePickerPlugin">
+            <clobbers target="datePickerPlugin" />
         </js-module>
 
-	    <header-file src="src/ios/DatePicker.h" />
-	    <source-file src="src/ios/DatePicker.m" />
-		<resource-file src="src/ios/DatePicker.xib" />
+	    <header-file src="src/ios/DatePickerPlugin.h" />
+	    <source-file src="src/ios/DatePickerPlugin.m" />
+		<resource-file src="src/ios/DatePickerPlugin.xib" />
 
     </platform>
 

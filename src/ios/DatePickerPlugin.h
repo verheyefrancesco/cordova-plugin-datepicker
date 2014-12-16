@@ -12,7 +12,7 @@
 #import <Foundation/Foundation.h>
 #import <Cordova/CDV.h>
 
-@interface DatePicker : CDVPlugin <UIPopoverControllerDelegate> {
+@interface DatePickerPlugin : CDVPlugin <UIPopoverControllerDelegate> {
     
 }
 

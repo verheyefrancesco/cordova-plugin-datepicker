@@ -3,11 +3,11 @@ var exec = require('cordova/exec');
 /**
  * Constructor
  */
-function DatePicker() {
+function DatePickerPlugin() {
     this._callback;
 }
 
-DatePicker.prototype.show = function(options, cb) {
+DatePickerPlugin.prototype.show = function(options, cb) {
     var padDate = function(date) {
       if (date.length == 1) {
         return ("0" + date);
@@ -39,31 +39,31 @@ DatePicker.prototype.show = function(options, cb) {
 
     exec(null, 
       null, 
-      "DatePicker", 
+      "DatePickerPlugin", 
       "show",
       [defaults]);
 };
 
-DatePicker.prototype._dateSelected = function(date) {
+DatePickerPlugin.prototype._dateSelected = function(date) {
     var d = new Date(parseFloat(date) * 1000);
     if (this._callback){
       this._callback(d);
     }
 };
 
-DatePicker.prototype._dateSelectionCanceled = function() {
+DatePickerPlugin.prototype._dateSelectionCanceled = function() {
     if (this._callback){
       this._callback();
     }
 };
 
-var datePicker = new DatePicker();
-module.exports = datePicker;
+var datePickerPlugin = new DatePickerPlugin();
+module.exports = datePickerPlugin;
 
 // Make plugin work under window.plugins
 if (!window.plugins) {
     window.plugins = {};
 }
-if (!window.plugins.datePicker) {
-    window.plugins.datePicker = datePicker;
+if (!window.plugins.datePickerPlugin) {
+    window.plugins.datePickerPlugin = datePickerPlugin;
 }
